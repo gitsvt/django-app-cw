@@ -7,6 +7,7 @@ from django.contrib.auth import login, logout, authenticate
 from bk.models import Expense
 from .forms import ExpenseForm 
 from .models import Expense
+from django.contrib.auth.decorators import login_required
 
 def home(request):
     return render(request, 'bk/home.html')
@@ -38,12 +39,12 @@ def loginuser(request):
         else:
             login(request, user)
             return redirect('incandexplist')
-            
+@login_required            
 def logoutuser(request):
     if request.method == 'POST':
         logout(request)
         return redirect('home')
-
+@login_required
 def addexpenses(request):
     if request.method == 'GET':
         return render(request, 'bk/addexpenses.html', {'form':ExpenseForm()})
@@ -62,14 +63,15 @@ def addexpenses(request):
                 return redirect('incandexplist')
         except ValueError:
             return render(request, 'bk/addexpenses.html', {'form':ExpenseForm(), 'error':'Введены неверные данные. Попробуйте снова!'})
-
+@login_required
 def incandexplist(request):
     expenses = Expense.objects.filter(owner=request.user)
     return render(request, 'bk/incandexplist.html', {'expenses':expenses})
 
+@login_required
 def viewexpense(request, pk):
     #expense = Expense.objects.get(pk=pk)
-    exp = get_object_or_404(Expense, pk=pk)
+    exp = get_object_or_404(Expense, pk=pk, owner=request.user)
     if request.method == 'GET':
         form = ExpenseForm(instance=exp)
         return render(request, 'bk/viewexpense.html', {'exp':exp, 'form':form})
@@ -80,5 +82,10 @@ def viewexpense(request, pk):
             return redirect('incandexplist')
         except ValueError:
            return render(request, 'bk/viewexpense.html', {'exp':exp, 'form':form, 'error':'Введены неверные данные. Попробуйте снова!'})
-     
 
+@login_required    
+def deleteexpense(request, pk):
+    exp = get_object_or_404(Expense, pk=pk, owner=request.user)
+    if request.method == 'POST':
+        exp.delete()
+        return redirect('incandexplist')

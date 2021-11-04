@@ -5,6 +5,7 @@
 <ul>
     {% for exp in expenses %}
     <li><a href="{% url 'viewexpense' exp.id %}">{{ exp.amount }}{% if exp.description %} - {{ exp.description }} {% endif %}</a></li>
+    {{ exp.date }}
     {% endfor %}
 </ul>
 

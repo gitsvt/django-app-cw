@@ -30,4 +30,5 @@ urlpatterns = [
     path('addexpense/', views.addexpenses, name='addexpenses'),
     path('incandexp/', views.incandexplist, name='incandexplist'),
     path('expense/<int:pk>/', views.viewexpense, name='viewexpense'),
+    path('expense/<int:pk>/delete', views.deleteexpense, name='deleteexpense'),
 ]
