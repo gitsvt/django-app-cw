@@ -27,6 +27,7 @@ urlpatterns = [
     
     # dashboard
     path('', views.home, name='home'),
+    path('addexpense/', views.addexpenses, name='addexpenses'),
     path('incandexp/', views.incandexplist, name='incandexplist'),
-
+    path('expense/<int:pk>/', views.viewexpense, name='viewexpense'),
 ]

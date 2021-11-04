@@ -1,15 +1,16 @@
-from django.shortcuts import render, redirect
+from django.core.checks import messages
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import login, logout, authenticate
-
+from bk.models import Expense
+from .forms import ExpenseForm 
+from .models import Expense
 
 def home(request):
     return render(request, 'bk/home.html')
 
-
-# Create your views here.
 def signupuser(request):
     if request.method == 'GET':
         return render(request, 'bk/signupuser.html', {'form':UserCreationForm()})
@@ -43,6 +44,41 @@ def logoutuser(request):
         logout(request)
         return redirect('home')
 
+def addexpenses(request):
+    if request.method == 'GET':
+        return render(request, 'bk/addexpenses.html', {'form':ExpenseForm()})
+    else:
+        try:
+            form = ExpenseForm(request.POST)
+            if form.is_valid():
+                print(form.cleaned_data)
+                amount = form.cleaned_data['amount']
+                description = form.cleaned_data['description']
+                date = form.cleaned_data['date']
+                category = form.cleaned_data['category']
+                owner = request.user
+                print("\n\n\t", amount, description, date, category, owner)
+                Expense.objects.create(owner=owner, amount=amount, date=date, category=category, description=description)
+                return redirect('incandexplist')
+        except ValueError:
+            return render(request, 'bk/addexpenses.html', {'form':ExpenseForm(), 'error':'Введены неверные данные. Попробуйте снова!'})
+
 def incandexplist(request):
-    return render(request, 'bk/incandexplist.html')
+    expenses = Expense.objects.filter(owner=request.user)
+    return render(request, 'bk/incandexplist.html', {'expenses':expenses})
+
+def viewexpense(request, pk):
+    #expense = Expense.objects.get(pk=pk)
+    exp = get_object_or_404(Expense, pk=pk)
+    if request.method == 'GET':
+        form = ExpenseForm(instance=exp)
+        return render(request, 'bk/viewexpense.html', {'exp':exp, 'form':form})
+    else:
+        try:
+            form = ExpenseForm(request.POST, instance=exp)
+            form.save()
+            return redirect('incandexplist')
+        except ValueError:
+           return render(request, 'bk/viewexpense.html', {'exp':exp, 'form':form, 'error':'Введены неверные данные. Попробуйте снова!'})
+     
 

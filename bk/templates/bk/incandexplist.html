@@ -2,6 +2,10 @@
 
 {% block content %}
 
-Current
+<ul>
+    {% for exp in expenses %}
+    <li><a href="{% url 'viewexpense' exp.id %}">{{ exp.amount }}{% if exp.description %} - {{ exp.description }} {% endif %}</a></li>
+    {% endfor %}
+</ul>
 
 {% endblock %}

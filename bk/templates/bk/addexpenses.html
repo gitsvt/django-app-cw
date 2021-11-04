@@ -1,0 +1,19 @@
+{% extends 'bk/base.html' %}
+
+{% block content %}
+
+
+<h1> Добавить расход </h1>
+
+<h2>{{ error }}</h2>
+<form method="POST">
+    {% csrf_token %}
+    Сумма: {{ form.amount }} <br>
+    Дата: {{ form.date }} <br>
+    Описание: {{ form.description }} <br>
+    Категория: {{ form.category }} <br>
+<!-- {{ form.as_p }} -->
+<button type="submit">Добавить</button>
+</form>
+
+{% endblock %}
