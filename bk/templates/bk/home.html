@@ -1,7 +1,14 @@
 {% extends 'bk/base.html' %}
-
 {% block content %}
-
-HOme
-
+<br>
+<br>
+<br>
+<div class="row justify-content-center mt-5">
+    <div class="col-md-7 text-center">
+        <h1>Добрый день будущий миллионер!</h1>
+        <p style="font-size: 20px;">Наша информационная система поможет тебе контролировать свои доходы, и быть разумным в своих желаниях. <br>Ну что, посчитаем деньги?</p>
+        <p><img src="https://static.seekingalpha.com/cdn/s3/uploads/getty_images/1282216330/crop_4_3_image_1282216330.jpg" width="300"></p>
+        <a role="button" class="btn btn-primary btn-lg" href="{% url 'addexpenses' %}">Добавить первый расход</a>
+    </div>
+</div>
 {% endblock %}

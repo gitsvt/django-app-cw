@@ -1,12 +1,86 @@
 {% extends 'bk/base.html' %}
 
 {% block content %}
+<div class="row justify-content-center mt-5">
+    <h3>Последние расходы</h3>
+    <div class="col-md-10">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Стоимость (руб)</th>
+                    <th scope="col">Категория</th>
+                    <th scope="col">Комментарий</th>
+                    <th scope="col">Дата</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for exp in expenses %}
+                <tr>
+                    <td>{{ exp.amount }}</td>
+                    <td>{{ exp.category }}</td>
+                    <td>{{ exp.description }}</td>
+                    <td>{{ exp.date }}</td>
+                    <td><a href="{% url 'viewexpense' exp.id %}">Посмотреть</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 
-<ul>
-    {% for exp in expenses %}
-    <li><a href="{% url 'viewexpense' exp.id %}">{{ exp.amount }}{% if exp.description %} - {{ exp.description }} {% endif %}</a></li>
-    {{ exp.date }}
-    {% endfor %}
-</ul>
+<div class="row justify-content-center mt-5">
+    <h3>Последние доходы</h3>
+    <div class="col-md-10">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Стоимость (руб)</th>
+                    <th scope="col">Источник</th>
+                    <th scope="col">Комментарий</th>
+                    <th scope="col">Дата</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for inc in incomes %}
+                <tr>
+                    <td>{{ inc.amount }}</td>
+                    <td>{{ inc.source }}</td>
+                    <td>{{ inc.description }}</td>
+                    <td>{{ inc.date }}</td>
+                    <td><a href="{% url 'viewincome' inc.id %}">Посмотреть</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row justify-content-center mt-5">
+    <h3>Список желаний</h3>
+    <div class="col-md-10">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Стоимость (руб)</th>
+                    <th scope="col">Комментарий</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for wish in whishes %}
+                <tr>
+                    <td>{{ wish.amount }}</td>
+                    
+                    <td>{{ wish.description }}</td>
+                    
+                    <td><a href="{% url 'deletewish' wish.id %}">Удалить желание</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 
 {% endblock %}

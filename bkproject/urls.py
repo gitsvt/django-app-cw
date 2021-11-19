@@ -1,23 +1,9 @@
-"""bkproject URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/3.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path
 from bk import views
 
 urlpatterns = [
+    #Admin
     path('admin/', admin.site.urls),
 
     #Auth
@@ -25,10 +11,25 @@ urlpatterns = [
     path('login/', views.loginuser, name='loginuser'),
     path('logout/', views.logoutuser, name='logoutuser'),
     
-    # dashboard
+    # home
     path('', views.home, name='home'),
-    path('addexpense/', views.addexpenses, name='addexpenses'),
+    
     path('incandexp/', views.incandexplist, name='incandexplist'),
+    
+    #expense
+    path('addexpense/', views.addexpenses, name='addexpenses'),
     path('expense/<int:pk>/', views.viewexpense, name='viewexpense'),
     path('expense/<int:pk>/delete', views.deleteexpense, name='deleteexpense'),
+    path('stats/', views.stats, name='stats'),
+
+    #income
+    path('addincome/', views.addincomes, name='addincomes'),
+    path('income/<int:pk>/', views.viewincome, name='viewincome'),
+    path('income/<int:pk>/delete', views.deleteincome, name='deleteincome'),
+    path('incomestats/', views.incomestats, name='incomestats'),
+
+    path('addwishes/', views.addnewwishes, name='addnewwish'),
+    path('deletewishes/<int:pk>', views.deletewish, name='deletewish'),
+    #path('stats/', views.stats, name='stats'),
+
 ]

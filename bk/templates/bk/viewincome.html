@@ -3,7 +3,7 @@
 {% block content %}
 <div class="row justify-content-center mt-5">
     <div class="col-md-5">
-        <h2>Обновить расход</h2>
+        <h2>Обновить доход</h2>
     </div>
 </div>
 <div class="row justify-content-center mt-5">
@@ -17,7 +17,7 @@
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit" class="btn btn-primary">Сохранить</button>
-            <a href="{% url 'deleteexpense' exp.id %}"><button type="button" class="btn btn-danger">Удалить</button></a>
+            <a href="{% url 'deleteincome' inc.id %}"><button type="button" class="btn btn-danger">Удалить</button></a>
         </form>
     </div>
 </div>
